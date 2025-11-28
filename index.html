@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hypotheekcalculator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💰 Hypotheekcalculator</h1>
+            <p>Bereken uw maandelijkse hypotheeklasten en bekijk het verloop over tijd</p>
+        </header>
+
+        <div class="calculator-wrapper">
+            <div class="calculator-form">
+                <h2>Berekeningsinstellingen</h2>
+
+                <div class="form-group">
+                    <label for="loanAmount">Hypotheekbedrag (€)</label>
+                    <input type="number" id="loanAmount" value="300000" min="0" step="1000">
+                    <input type="range" id="loanAmountSlider" min="50000" max="1000000" step="1000" value="300000">
+                </div>
+
+                <div class="form-group">
+                    <label for="interestRate">Rentepercentage (%)</label>
+                    <input type="number" id="interestRate" value="4.5" min="0" max="20" step="0.1">
+                    <input type="range" id="interestRateSlider" min="0" max="20" step="0.1" value="4.5">
+                </div>
+
+                <div class="form-group">
+                    <label for="loanTerm">Looptijd (jaren)</label>
+                    <input type="number" id="loanTerm" value="30" min="1" max="50" step="1">
+                    <input type="range" id="loanTermSlider" min="1" max="50" step="1" value="30">
+                </div>
+
+                <div class="form-group">
+                    <label for="downPayment">Eigen inbreng (€)</label>
+                    <input type="number" id="downPayment" value="0" min="0" step="1000">
+                    <input type="range" id="downPaymentSlider" min="0" max="200000" step="1000" value="0">
+                </div>
+
+                <button id="calculateBtn" class="btn-primary">Bereken</button>
+                <button id="resetBtn" class="btn-secondary">Reset</button>
+            </div>
+
+            <div class="results">
+                <h2>Resultaten</h2>
+
+                <div class="result-card">
+                    <div class="result-label">Maandelijkse betaling</div>
+                    <div class="result-value" id="monthlyPayment">€0</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-label">Totale kosten</div>
+                    <div class="result-value" id="totalPayment">€0</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-label">Totale rente</div>
+                    <div class="result-value" id="totalInterest">€0</div>
+                </div>
+
+                <div class="result-details">
+                    <h3>Samenvatting</h3>
+                    <div class="detail-row">
+                        <span>Hypotheekbedrag:</span>
+                        <span id="summaryLoan">€0</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Eigen inbreng:</span>
+                        <span id="summaryDownPayment">€0</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Loan-to-Value (LTV):</span>
+                        <span id="summaryLTV">0%</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Rentepercentage:</span>
+                        <span id="summaryRate">0%</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Looptijd:</span>
+                        <span id="summaryTerm">0 jaar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h2>Aflossing over tijd</h2>
+            <div class="chart-wrapper">
+                <canvas id="paymentChart"></canvas>
+            </div>
+
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #4f46e5;"></span>
+                    <span>Hoofdsom</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #ef4444;"></span>
+                    <span>Rente</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #10b981;"></span>
+                    <span>Restschuld</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="amortization-table">
+            <h2>Aflossingstabel</h2>
+            <div class="table-controls">
+                <label>
+                    <input type="checkbox" id="showYearlyOnly" checked>
+                    Toon alleen jaarlijkse samenvatting
+                </label>
+            </div>
+            <div class="table-wrapper">
+                <table id="amortizationTable">
+                    <thead>
+                        <tr>
+                            <th>Periode</th>
+                            <th>Maandelijkse betaling</th>
+                            <th>Hoofdsom</th>
+                            <th>Rente</th>
+                            <th>Restschuld</th>
+                        </tr>
+                    </thead>
+                    <tbody id="amortizationBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer>
+            <p>Hypotheekcalculator - Deze berekeningen zijn indicatief</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
